@@ -1,0 +1,35 @@
+import random
+ 
+from giftchoose.userData import getdata
+ 
+def getgift():
+    num = getdata() # 存放抽奖用户信息
+    print("欢迎抽奖，希望你有好运气！")
+    print("参与抽奖的用户如下：")
+    for i in num:
+        print(i)
+    usernum = len(num)
+    reward = 2
+    usernum = int(usernum)
+    reward = int(reward)
+ 
+    resultList = []                         # 存放随机数结果
+    def generateRand(counter):
+        tempInt = random.randint(0, usernum-1)     # 生成一个范围内的临时随机数
+        if(counter <= reward):                   # 先看随机数的总个数是不是够了，如果不够
+            if(tempInt not in resultList):  # 再检查当前已经生成的临时随机数是不是已经存在
+                resultList.append(tempInt)  # 如果不存在，则将其追加到结果resultList中
+                counter += 1                # 将表示有效结果的个数加1
+            generateRand(counter)           # 不管上面的if是否成立，都要递归。
+    generateRand(1)                    # 调用递归函数，并给当前要生成的有效随机数的个序号置为1
+ 
+    prize = []                              # 用于存放中奖号码
+    # 将中奖号码添加到结果prize中
+    for j in range(reward):
+        prize.append(num[resultList[j]])
+    print("\n中奖用户：")           # 输出中奖结果
+    for k in range(reward):
+        print(prize[k], end="\n")
+ 
+if __name__ == '__main__':
+    getgift()
